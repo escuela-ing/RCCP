@@ -222,6 +222,66 @@ def printManuscript(s):
     '''
     for k,v in s.items(): print('CODE: ' + k + '\nMANUSCRIPT:\n' + v, end='\n\n')
 
+def loadExcel(path, sheetname='Culled Data'):
+    '''
+    Load a Excel file
+    
+    PARAMETERS
+    ----------
+    path: STRING
+        string with the Excel path to load
+    sheetname: STRING
+        the sheetname to load
+    
+    RETURNS
+    -------
+    xl : DataFrame
+        A DataFrame that contains all values from excel file
+    '''
+    xl = pd.ExcelFile(path).parse(sheetname=sheetname)
+    return pd.DataFrame(xl)
+
+def saveCSV(df, path, name='Transcriptions.csv'):
+    '''
+    Create a CSV file with the transcriptions and its codes
+    
+    PARAMETERS
+    ----------
+    df : DataFrame
+        contains the transcriptions with its codes to save
+    path : STRING
+        the path where to save the file
+    name : STRING
+        the file name
+    '''
+    df.to_csv(path + name)
+
+def createDataFrame(d, colCode='Codes', colTranscriptions='Transcriptions'):
+    '''
+    Create a DataFrame from a Dictionary of transcriptions
+    
+    PARAMETERS
+    ----------
+    d : DICTIONARY
+        contains the transcription with its respective code
+    colCode : STRING
+        column name for codes
+    colTranscriptions : STRING
+        column name for transcriptions
+        
+    RETURNS
+    -------
+    df : DataFrame
+        The respective DataFrame with names and values by column
+    '''
+    df = pd.DataFrame()
+    df[colCode] = list(m.keys())
+    df[colTranscriptions] = list(m.values())
+    return df
+
+    
+    
+
 #########
 # STUBS #
 #########
@@ -238,10 +298,11 @@ traer provecho y verdad en el y de<br>non facer en ello solucion alguna&nbsp;
 B2U39<br>reparadas e fizose entero con ellas&nbsp;<br>e el dicho cabillo
 otorgogelas como<br>dicho es; para lo qual ambas las par-<br>tes otorgaron
 dos contratos de un te-<br>nor por antemi Pedro Gonzalez Ra-<br>cionero
-'''
-m = extractManuscript(deleteNegativeSymbol(deleteDoubleSpace(changeCodeToSpace(deleteHTMLTags(stubString1)))))
-printManuscript(m)
-df = pd.DataFrame()
-df['Codes'] = list(m.keys())
-df['Manuscripts'] = list(m.values())
-print(df)
+''' 
+d = extractManuscript(deleteNegativeSymbol(deleteDoubleSpace(changeCodeToSpace(deleteHTMLTags(stubString1)))))
+#a = loadExcel('~/Proyectos/RCCP/Documents/Data/DS-Plasencia2014-Transcriptions.xlsx')
+#print(list(a['Transriptions']))
+
+#printManuscript(m)
+df = createDataFrame(d)
+saveCSV(df, '~/Proyectos/RCCP/Documents/Data/')
