@@ -172,8 +172,7 @@ def deleteNegativeSymbol(s):
     in["Hello-again "]                  -> out["Helloagain"]
     in["Hello without negative symbol"] -> out["Hello without negative symbol"]
     '''
-    s = s.replace('- ', ''); s = s.replace('-', '')
-    return s.strip()
+    return s.replace('- ', '').replace('-', '').strip()
     
 def extractManuscript(s, manuscript={}):
     '''
@@ -216,11 +215,6 @@ def extractManuscript(s, manuscript={}):
         return manuscript
     
     return extractManuscript(s, manuscript)
-
-def printManuscript(s):
-    '''
-    '''
-    for k,v in s.items(): print('CODE: ' + k + '\nMANUSCRIPT:\n' + v, end='\n\n')
 
 def loadExcel(path, sheetname='Culled Data'):
     '''
@@ -275,8 +269,8 @@ def createDataFrame(d, colCode='Codes', colTranscriptions='Transcriptions'):
         The respective DataFrame with names and values by column
     '''
     df = pd.DataFrame()
-    df[colCode] = list(m.keys())
-    df[colTranscriptions] = list(m.values())
+    df[colCode] = list(d.keys())
+    df[colTranscriptions] = list(d.values())
     return df
 
     
