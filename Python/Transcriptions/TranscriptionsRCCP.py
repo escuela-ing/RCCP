@@ -88,13 +88,13 @@ def changeCodeToSpace(s):
     in["Hello without HTML codes"]  -> out["Hello without HTML codes"]
     '''
     spaceCode = '&nbsp;'
-    startCode = s.find(spaceCode)
+#    startCode = s.find(spaceCode)
+#
+#    while startCode != -1:
+#        s = s[:startCode] + ' ' + s[startCode+6:]
+#        startCode = s.find(spaceCode)
 
-    while startCode != -1:
-        s = s[:startCode] + ' ' + s[startCode+6:]
-        startCode = s.find(spaceCode)
-
-    return s.strip()
+    return s.replace(spaceCode, ' ').strip()
 
 
 def findCode(s):
@@ -359,7 +359,7 @@ def dataClean(s, e=[]):
     in["Heloo&nbsp;my&nbsp;<ds>&nbsp; <sfe> world"] -> out["Heloo my world"]
     in["Hello again again"]                         -> out["Hello again again"]
     '''
-    for rmv in e: s.replace(rmv, ' ')
+    for rmv in e: s = s.replace(rmv, ' ')
 
     s = deleteTabs(s)
     s = changeCodeToSpace(s)
